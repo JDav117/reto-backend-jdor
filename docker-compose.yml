@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mongo:latest
+    container_name: devlocker-db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - devlocker-data:/data/db
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: devlocker-gui
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: db
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: pass
+    depends_on:
+      - db
+
+volumes:
+  devlocker-data:
